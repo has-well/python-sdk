@@ -8,7 +8,6 @@ with open('README.md', 'r') as f:
 requires_list = [
     'requests',
     'hashlib'
-    'six'
 ]
 
 setup(
@@ -23,7 +22,6 @@ setup(
     install_requires=requires_list,
     classifiers=[
         'Environment :: Web Environment',
-        'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
