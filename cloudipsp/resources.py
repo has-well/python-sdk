@@ -1,9 +1,12 @@
+from __future__ import absolute_import, unicode_literals
+
+
 class Resource(object):
-    convert_resources = {}
 
     def __init__(self, Api=None):
-        super(Resource, self).__setattr__('__data__', {})
         self.__dict__['api'] = Api
+
+        super(Resource, self).__setattr__('__data__', {})
 
     def __str__(self):
         return self.__data__.__str__()
