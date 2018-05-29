@@ -2,7 +2,7 @@ from cloudipsp import Api, Checkout
 import string
 import random
 
-api = Api(merchant_id=1000, secret_key='test', reques_type='json')
+api = Api(merchant_id=1000, secret_key='test', reques_type='json')  # json - is default
 checkout = Checkout(Api=api)
 
 data = {
