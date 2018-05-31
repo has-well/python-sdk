@@ -7,3 +7,7 @@ class Checkout(Resource):
         path = "/checkout/url/"
         response = self.api.post(path, data)
         return response
+    def token(self, data):
+        path = "/checkout/token/"
+        response = self.api.post(path, data)
+        return response

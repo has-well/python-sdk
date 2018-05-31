@@ -1,8 +1,8 @@
-from __future__ import unicode_literals
+from __future__ import absolute_import, unicode_literals
 from hashlib import sha1
 from cloudipsp.configuration import __sign_sep__ as sep
 
-import utils
+import cloudipsp.utils as utils
 
 
 def get_data(data, type):

@@ -3,8 +3,8 @@ from __future__ import absolute_import, unicode_literals
 
 class Resource(object):
 
-    def __init__(self, Api=None):
-        self.__dict__['api'] = Api
+    def __init__(self, api=None):
+        self.__dict__['api'] = api
 
         super(Resource, self).__setattr__('__data__', {})
 

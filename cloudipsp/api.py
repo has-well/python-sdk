@@ -11,12 +11,18 @@ class Api(object):
     user_agent = 'Python SDK'
 
     def __init__(self, **kwargs):
+        """
+        :param kwargs: 
+        :arg merchant_id Merchant id numeric
+        :arg secret_key Secret key string
+        """
         self.merchant_id = kwargs.get('merchant_id', '')
         self.secret_key = kwargs.get('secret_key', '')
         self.reques_type = kwargs.get('reques_type', 'json')
         if not self.merchant_id or not self.secret_key:
             self.merchant_id = os.environ.get('CLOUDIPSP_MERCHANT_ID', '')
             self.secret_key = os.environ.get('CLOUDIPSP_SECRETKEY', '')
+        self.api_url = __api_url__.format(api_domain=kwargs.get('api_domain', 'api.fondy.eu'))
 
     def _headers(self):
         return {
@@ -46,6 +52,6 @@ class Api(object):
             data['signature'] = helper.generate_signature(self.secret_key, data)
         data_string = helper.get_data({'request': data}, self.reques_type)
         return self._request(
-            utils.join_url(__api_url__, url), 'POST',
+            utils.join_url(self.api_url, url), 'POST',
             data=data_string,
             headers=headers or self._headers())
