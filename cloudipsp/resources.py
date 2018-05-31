@@ -2,11 +2,11 @@ from __future__ import absolute_import, unicode_literals
 
 
 class Resource(object):
-
-    def __init__(self, api=None):
+    def __init__(self, api=None, headers=None):
         self.__dict__['api'] = api
 
         super(Resource, self).__setattr__('__data__', {})
+        super(Resource, self).__setattr__('__headers__', headers or {})
 
     def __str__(self):
         return self.__data__.__str__()

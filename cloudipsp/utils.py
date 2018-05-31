@@ -2,8 +2,7 @@ from __future__ import absolute_import, unicode_literals
 import re
 import json
 import base64
-
-from urllib import urlencode
+import urllib
 
 
 def data2xml(d):
@@ -30,7 +29,7 @@ def data2xml(d):
 
 
 def to_base64(data):
-    return base64.b64encode(json.dumps(data))
+    return base64.b64encode(json.dumps(data).encode('utf-8')).decode('utf-8')
 
 
 def to_xml(data, start='<?xml version="1.0" encoding="UTF-8"?>'):
@@ -42,14 +41,13 @@ def to_json(data):
 
 
 def to_form(data):
-    return urlencode(data)
+    return urllib.urlencode(data)
 
 
-def merge_dict(data, *override):
-    result = {}
-    for current_dict in (data,) + override:
-        result.update(current_dict)
-    return result
+def merge_dict(x, y):
+    z = x.copy()
+    z.update(y)
+    return z
 
 
 def join_url(url, *paths):

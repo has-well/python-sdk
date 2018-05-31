@@ -30,7 +30,7 @@ class Api(object):
             'Content-Type': helper.get_request_type(self.reques_type),
         }
 
-    def _request(self, url, method, data={}, headers={}):
+    def _request(self, url, method, data, headers):
         response = requests.request(method, url, data=data, headers=headers)
         return self._response(response, response.content.decode('utf-8'))
 
@@ -51,7 +51,8 @@ class Api(object):
         if 'signature' not in data:
             data['signature'] = helper.generate_signature(self.secret_key, data)
         data_string = helper.get_data({'request': data}, self.reques_type)
+
         return self._request(
             utils.join_url(self.api_url, url), 'POST',
             data=data_string,
-            headers=headers or self._headers())
+            headers=utils.merge_dict(headers, self._headers()))
