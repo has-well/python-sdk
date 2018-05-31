@@ -1,7 +1,7 @@
 from cloudipsp import Api, Checkout
 
 
-api = Api(merchant_id=1000, secret_key='test', reques_type='json')  # json - is default
+api = Api(merchant_id=1000, secret_key='test', reques_type='form')  # json - is default
 checkout = Checkout(api=api)
 
 data = {

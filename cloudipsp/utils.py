@@ -2,7 +2,7 @@ from __future__ import absolute_import, unicode_literals
 import re
 import json
 import base64
-import urllib
+import six.moves.urllib as urllib
 
 
 def data2xml(d):
@@ -41,7 +41,7 @@ def to_json(data):
 
 
 def to_form(data):
-    return urllib.urlencode(data)
+    return urllib.parse.urlencode(data)
 
 
 def merge_dict(x, y):

@@ -7,7 +7,7 @@ with open('README.md', 'r') as f:
 
 requires_list = [
     'requests',
-    'hashlib'
+    'six'
 ]
 
 setup(
