@@ -8,17 +8,14 @@ import six.moves.urllib as urllib
 def data2xml(d):
     result_list = list()
 
-    json_obj_type = type(d)
-
-    if json_obj_type is list:
+    if isinstance(d, list):
         for sub_elem in d:
             result_list.append(data2xml(sub_elem))
 
         return ''.join(d)
 
-    if json_obj_type is dict:
-        for tag_name in d:
-            sub_obj = d[tag_name]
+    if isinstance(d, dict):
+        for tag_name, sub_obj in d.items():
             result_list.append("<%s>" % tag_name)
             result_list.append(data2xml(sub_obj))
             result_list.append("</%s>" % tag_name)

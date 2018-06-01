@@ -18,11 +18,12 @@ class Checkout(Resource):
         return response
 
     def _required(self, data):
+        order_id = helper.generate_order_id()
         params = {
-            'order_id': data.get('order_id') or helper.generate_order_id(),
-            'order_desc': data.get('order_desc') or helper.generate_order_desc(),
+            'order_id': data.get('order_id') or order_id,
+            'order_desc': data.get('order_desc') or helper.generate_order_desc(order_id),
             'amount': data.get('amount', ''),
-            'currency': data.get('merchant_id', '')
+            'currency': data.get('currency', '')
         }
         params.update(data)
         return params

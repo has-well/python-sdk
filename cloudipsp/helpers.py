@@ -22,7 +22,7 @@ def get_request_type(type):
         'xml': 'application/xml; charset=utf-8',
         'form': 'application/x-www-form-urlencoded; charset=utf-8'
     }
-    return types[type] if type in types else types['json']
+    return types.get(type, types['json'])
 
 
 def generate_signature(secret_key, params):
@@ -32,8 +32,8 @@ def generate_signature(secret_key, params):
     return sha1(sep.join(data).encode('utf-8')).hexdigest()
 
 
-def generate_order_desc():
-    return ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)])
+def generate_order_desc(order_id):
+    return 'Pay for order #: ' + order_id
 
 
 def generate_order_id():

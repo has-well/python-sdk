@@ -1,11 +1,10 @@
 from cloudipsp import Api, Checkout
 
 
-api = Api(merchant_id=1000, secret_key='test', reques_type='form')  # json - is default
+api = Api(merchant_id=1396424, secret_key='test', reques_type='xml')  # json - is default
 checkout = Checkout(api=api)
 
 data = {
-    "order_desc": "test order",
     "currency": "USD",
     "amount": "125",
     "reservation_data": {

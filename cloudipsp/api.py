@@ -43,7 +43,7 @@ class Api(object):
         raise Exception(
             'Response code is: {status}'.format(status=status))
 
-    def post(self, url, data={}, headers={}):
+    def post(self, url, data=None, headers=None):
         if 'merchant_id' not in data:
             data['merchant_id'] = self.merchant_id
         if 'reservation_data' in data:
