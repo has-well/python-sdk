@@ -1,5 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 
+from cloudipsp import utils
+from cloudipsp import exceptions
+
 
 class Resource(object):
     def __init__(self, api=None, headers=None):
@@ -25,3 +28,22 @@ class Resource(object):
 
     def __contains__(self, name):
         return name in self.__data__
+
+    def response(self, response):
+        try:
+            result = None
+            if self.api.request_type == 'json':
+                result = utils.from_json(response).get('response', '')
+            if self.api.request_type == 'xml':
+                result = utils.from_xml(response).get('response', '')
+            if self.api.request_type == 'form':
+                result = utils.from_form(response)
+
+            return self._get_result(result)
+        except KeyError:
+            raise ValueError('Undefined format error.')
+
+    def _get_result(self, result):
+        if 'response_status' in result and result.get('response_status') == 'failure':
+            raise exceptions.ResponseError(result)
+        return result

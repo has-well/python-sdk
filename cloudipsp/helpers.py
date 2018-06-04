@@ -33,7 +33,7 @@ def generate_signature(secret_key, params):
 
 
 def generate_order_desc(order_id):
-    return 'Pay for order #: ' + order_id
+    return 'Pay for order #: %s' % order_id
 
 
 def generate_order_id():
