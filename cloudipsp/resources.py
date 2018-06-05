@@ -46,4 +46,6 @@ class Resource(object):
     def _get_result(self, result):
         if 'response_status' in result and result.get('response_status') == 'failure':
             raise exceptions.ResponseError(result)
+        if 'error_message' in result:
+            raise exceptions.ResponseError(result)
         return result

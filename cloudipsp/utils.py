@@ -7,19 +7,19 @@ import six.moves.urllib as urllib
 import xml.etree.cElementTree as ElementTree
 
 
-def data2xml(d):
+def _data2xml(d):
     result_list = list()
 
     if isinstance(d, list):
         for sub_elem in d:
-            result_list.append(data2xml(sub_elem))
+            result_list.append(_data2xml(sub_elem))
 
         return ''.join(d)
 
     if isinstance(d, dict):
         for tag_name, sub_obj in d.items():
             result_list.append("<%s>" % tag_name)
-            result_list.append(data2xml(sub_obj))
+            result_list.append(_data2xml(sub_obj))
             result_list.append("</%s>" % tag_name)
 
         return ''.join(result_list)
@@ -32,7 +32,7 @@ def to_base64(data):
 
 
 def to_xml(data, start='<?xml version="1.0" encoding="UTF-8"?>'):
-    return start + data2xml(data)
+    return start + _data2xml(data)
 
 
 def to_json(data):
@@ -71,32 +71,32 @@ def from_xml(xml):
 def _parse(node):
     tree = {}
     for child in node.getchildren():
-        ctag = child.tag
-        cattr = child.attrib
-        ctext = child.text.strip().encode('utf-8') if child.text is not None else ''
-        ctree = _parse(child)
+        child_tag = child.tag
+        child_attr = child.attrib
+        child_text = child.text.strip().encode('utf-8') if child.text is not None else ''
+        child_tree = _parse(child)
 
-        if not ctree:
-            cdict = _xml_to_dict(ctag, ctext, cattr)
+        if not child_tree:
+            child_dict = _xml_to_dict(child_tag, child_text, child_attr)
         else:
-            cdict = _xml_to_dict(ctag, ctree, cattr)
-        if ctag not in tree:
-            tree.update(cdict)
+            child_dict = _xml_to_dict(child_tag, child_tree, child_attr)
+        if child_tag not in tree:
+            tree.update(child_dict)
             continue
-        atag = '@' + ctag
-        atree = tree[ctag]
+        atag = '@' + child_tag
+        atree = tree[child_tag]
         if not isinstance(atree, list):
             if not isinstance(atree, dict):
                 atree = {}
             if atag in tree:
-                atree['#' + ctag] = tree[atag]
+                atree['#' + child_tag] = tree[atag]
                 del tree[atag]
-            tree[ctag] = [atree]
+            tree[child_tag] = [atree]
 
-        if cattr:
-            ctree['#' + ctag] = cattr
+        if child_attr:
+            child_tree['#' + child_tag] = child_attr
 
-        tree[ctag].append(ctree)
+        tree[child_tag].append(child_tree)
     return tree
 
 

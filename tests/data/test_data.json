@@ -1,0 +1,18 @@
+{
+  "merchant": {
+    "id": 1396424,
+    "secret": "test"
+  },
+  "checkout_data": {
+    "amount": 1000,
+    "currency": "USD"
+  },
+  "order_data": {
+    "order_id": 14290
+  },
+  "order_full_data": {
+    "order_id": 14290,
+    "amount": 1000,
+    "currency": "RUB"
+  }
+}

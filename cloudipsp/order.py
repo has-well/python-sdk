@@ -1,8 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 from cloudipsp.resources import Resource
-from cloudipsp.exceptions import RequestError
 
 import cloudipsp.utils as utils
+import cloudipsp.helpers as helper
 
 
 class Order(Resource):
@@ -13,7 +13,7 @@ class Order(Resource):
             'amount': data.get('amount', ''),
             'currency': data.get('currency', '')
         }
-        self._validate(params)
+        helper.validate_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -25,7 +25,7 @@ class Order(Resource):
             'amount': data.get('amount', ''),
             'currency': data.get('currency', '')
         }
-        self._validate(params)
+        helper.validate_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -35,7 +35,7 @@ class Order(Resource):
         params = {
             'order_id': data.get('order_id', '')
         }
-        self._validate(params)
+        helper.validate_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -45,7 +45,7 @@ class Order(Resource):
         params = {
             'order_id': data.get('order_id', '')
         }
-        self._validate(params)
+        helper.validate_data(params)
         params.update(data)
         self.api.request_type = 'json'  # only json allowed all other methods returns 500 error
         result = self.api.post(path, data=params, headers=self.__headers__)
@@ -56,12 +56,7 @@ class Order(Resource):
         params = {
             'order_id': data.get('order_id', '')
         }
-        self._validate(params)
+        helper.validate_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return utils.from_json(result).get('response')
-
-    def _validate(self, data):
-        for key, value in data.items():
-            if value == '' or None:
-                raise RequestError(key)

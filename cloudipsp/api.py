@@ -41,10 +41,10 @@ class Api(object):
         if status in (200, 201):
             return content
 
-        raise exceptions.ServerError(
+        raise exceptions.ServiceError(
             'Response code is: {status}'.format(status=status))
 
-    def post(self, url, data=None, headers=None):
+    def post(self, url, data=list, headers=None):
         if 'merchant_id' not in data:
             data['merchant_id'] = self.merchant_id
         if 'reservation_data' in data:

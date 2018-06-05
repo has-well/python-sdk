@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from hashlib import sha1
 from cloudipsp.configuration import __sign_sep__ as sep
+from cloudipsp.exceptions import RequestError
 
 import cloudipsp.utils as utils
 import string
@@ -38,3 +39,9 @@ def generate_order_desc(order_id):
 
 def generate_order_id():
     return ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)])
+
+
+def validate_data(data):
+    for key, value in data.items():
+        if value == '' or None:
+            raise RequestError(key)

@@ -22,7 +22,9 @@ class ResponseError(Exception):
         self.response = response
 
     def __str__(self):
-        message = "Response status is %s." % self.response.get('response_status', '')
+        message = ''
+        if 'response_status' in self.response:
+            message += "Response status is %s." % self.response.get('response_status', '')
         if 'error_message' in self.response:
             message += " Error message: %s." % (self.response.get('error_message'))
         if 'error_code' in self.response:
@@ -31,7 +33,7 @@ class ResponseError(Exception):
         return message
 
 
-class ServerError(Exception):
+class ServiceError(Exception):
     """
     If response code not in (200, 201).
     """
