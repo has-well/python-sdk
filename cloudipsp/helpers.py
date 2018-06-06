@@ -8,23 +8,23 @@ import string
 import random
 
 
-def get_data(data, type):
+def get_data(data, req_type):
     """
     :param data: data to prepare
-    :param type: request type
+    :param req_type: request type
     :return: prepared data
     """
-    if type == 'json':
+    if req_type == 'json':
         return utils.to_json(data)
-    if type == 'xml':
+    if req_type == 'xml':
         return utils.to_xml(data)
-    if type == 'form':
+    if req_type == 'form':
         return utils.to_form(data.get('request'))
 
 
-def get_request_type(type):
+def get_request_type(req_type):
     """
-    :param type: request type
+    :param req_type: request type
     :return: post header
     """
     types = {
@@ -32,10 +32,10 @@ def get_request_type(type):
         'xml': 'application/xml; charset=utf-8',
         'form': 'application/x-www-form-urlencoded; charset=utf-8'
     }
-    return types.get(type, types['json'])
+    return types.get(req_type, types['json'])
 
 
-def generate_signature(secret_key, params):
+def get_signature(secret_key, params):
     """
     :param secret_key: merchant secret
     :param params: post params
@@ -47,7 +47,7 @@ def generate_signature(secret_key, params):
     return sha1(sep.join(data).encode('utf-8')).hexdigest()
 
 
-def generate_order_desc(order_id):
+def get_order_desc(order_id):
     """
     :param order_id: order id
     :return: description string
@@ -56,7 +56,7 @@ def generate_order_desc(order_id):
 
 
 def generate_order_id():
-    return ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)])
+    return ''.join([random.choice(string.digits) for n in range(12)])
 
 
 def validate_data(data):

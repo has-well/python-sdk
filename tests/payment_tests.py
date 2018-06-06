@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from cloudipsp import Payment, Pcidss
+from cloudipsp import Api, Payment, Pcidss
 from .tests_helper import TestCase
 from datetime import datetime, timedelta
 
@@ -30,8 +30,9 @@ class PaymentTest(TestCase):
         self.assertIsInstance(response, list)
 
     def test_p2pcredit(self):
-        data = self.data['payment_p2p']
-        response = self.payment.p2pcredit(data)
+        api = Api(merchant_id=1000, secret_key='test')
+        payment = Payment(api=api)
+        response = payment.p2pcredit(self.data['payment_p2p'])
         self.assertEqual(response.get('response_status'), 'success')
         self.assertIn('order_status', response)
 

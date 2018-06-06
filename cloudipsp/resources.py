@@ -41,7 +41,13 @@ class Resource(object):
         except KeyError:
             raise ValueError('Undefined format error.')
 
-    def _get_result(self, result):
-        if 'error_message' in result:  # in some api param response_status not exist...
+    @staticmethod
+    def _get_result(result):
+        """
+        in some api param response_status not exist...
+        :param result: api result
+        :return: exception
+        """
+        if 'error_message' in result:
             raise exceptions.ResponseError(result)
         return result

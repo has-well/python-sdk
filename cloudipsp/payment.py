@@ -14,9 +14,10 @@ class Pcidss(Resource):
         """
         path = '/3dsecure_step1/'
         order_id = data.get('order_id') or helper.generate_order_id()
+        order_desc = data.get('order_desc') or helper.get_order_desc(order_id)
         params = {
             'order_id': order_id,
-            'order_desc': data.get('order_desc') or helper.generate_order_desc(order_id),
+            'order_desc': order_desc,
             'currency': data.get('currency', ''),
             'amount': data.get('amount', ''),
             'card_number': data.get('card_number', ''),
@@ -55,9 +56,10 @@ class Payment(Resource):
         """
         path = '/p2pcredit/'
         order_id = data.get('order_id') or helper.generate_order_id()
+        order_desc = data.get('order_desc') or helper.get_order_desc(order_id)
         params = {
             'order_id': order_id,
-            'order_desc': data.get('order_desc') or helper.generate_order_desc(order_id),
+            'order_desc': order_desc,
             'amount': data.get('amount', ''),
             'currency': data.get('currency', '')
         }
@@ -78,7 +80,10 @@ class Payment(Resource):
             'date_to': data.get('date_to', '')
         }
         helper.validate_data(params)
-        self._validate_reports_date(params)  # from api only one response if data invalid "General Decline"
+        """
+        from api only one response if data invalid "General Decline"
+        """
+        self._validate_reports_date(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -91,9 +96,10 @@ class Payment(Resource):
         """
         path = '/recurring/'
         order_id = data.get('order_id') or helper.generate_order_id()
+        order_desc = data.get('order_desc') or helper.get_order_desc(order_id)
         params = {
             'order_id': order_id,
-            'order_desc': data.get('order_desc') or helper.generate_order_desc(order_id),
+            'order_desc': order_desc,
             'amount': data.get('amount', ''),
             'currency': data.get('currency', ''),
             'rectoken': data.get('rectoken', '')
@@ -103,15 +109,18 @@ class Payment(Resource):
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
 
-    def _validate_reports_date(self, date):
+    @staticmethod
+    def _validate_reports_date(date):
         """
         Validating date range
         :param date: date
         """
         try:
-            date_from = datetime.strptime(date['date_from'], '%d.%m.%Y %H:%M:%S')
-            date_to = datetime.strptime(date['date_to'], '%d.%m.%Y %H:%M:%S')
+            date_from = datetime.strptime(
+                date['date_from'], '%d.%m.%Y %H:%M:%S')
+            date_to = datetime.strptime(
+                date['date_to'], '%d.%m.%Y %H:%M:%S')
         except ValueError:
-            raise ValueError("Incorrect date format, should be 'DD.MM.YYY H:M:S'")
+            raise ValueError("Incorrect date format.")
         if date_from > date_to:
             raise ValueError("`date_from` can't be greater than `date_to`")

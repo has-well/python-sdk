@@ -16,9 +16,9 @@
     "currency": "RUB"
   },
   "payment_p2p": {
+    "receiver_card_number": "4444555566661111",
     "currency": "RUB",
-    "amount": 100,
-    "receiver_card_number": "4444555566661111"
+    "amount": 100
   },
   "payment_pcidss_non3ds": {
     "currency": "RUB",

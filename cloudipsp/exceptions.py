@@ -24,12 +24,15 @@ class ResponseError(Exception):
     def __str__(self):
         message = ''
         if 'response_status' in self.response:
-            message += "Response status is %s." % self.response.get('response_status', '')
+            message += "Response status is %s." \
+                       % self.response.get('response_status', '')
         if 'error_message' in self.response:
-            message += " Error message: %s." % (self.response.get('error_message'))
+            message += " Error message: %s." \
+                       % (self.response.get('error_message'))
         if 'error_code' in self.response:
-            message += " Error code: %s." % (self.response.get('error_code'))
-        message += " Check parameters."
+            message += " Error code: %s." \
+                       % (self.response.get('error_code'))
+        message += " Check parameters"
         return message
 
 

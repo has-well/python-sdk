@@ -7,7 +7,7 @@ import six.moves.urllib as urllib
 import xml.etree.cElementTree as ElementTree
 
 
-def to_base64(data):
+def to_b64(data):
     """
     Encoding data string base64 algorithm
     """
@@ -15,6 +15,11 @@ def to_base64(data):
 
 
 def to_xml(data, start='<?xml version="1.0" encoding="UTF-8"?>'):
+    """
+    :param data: data convert to xml
+    :param start: start xml string
+    :return: xml string
+    """
     return start + _data2xml(data)
 
 
@@ -90,33 +95,33 @@ def _data2xml(d):
 
 def _parse(node):
     tree = {}
-    for child in node.getchildren():
-        child_tag = child.tag
-        child_attr = child.attrib
-        child_text = child.text.strip().encode('utf-8') if child.text is not None else ''
-        child_tree = _parse(child)
+    for c in node.getchildren():
+        c_tag = c.tag
+        c_attr = c.attrib
+        ctext = c.text.strip() if c.text is not None else ''
+        c_tree = _parse(c)
 
-        if not child_tree:
-            child_dict = _xml_to_dict(child_tag, child_text, child_attr)
+        if not c_tree:
+            c_dict = _xml_to_dict(c_tag, ctext, c_attr)
         else:
-            child_dict = _xml_to_dict(child_tag, child_tree, child_attr)
-        if child_tag not in tree:
-            tree.update(child_dict)
+            c_dict = _xml_to_dict(c_tag, c_tree, c_attr)
+        if c_tag not in tree:
+            tree.update(c_dict)
             continue
-        atag = '@' + child_tag
-        atree = tree[child_tag]
+        atag = '@' + c_tag
+        atree = tree[c_tag]
         if not isinstance(atree, list):
             if not isinstance(atree, dict):
                 atree = {}
             if atag in tree:
-                atree['#' + child_tag] = tree[atag]
+                atree['#' + c_tag] = tree[atag]
                 del tree[atag]
-            tree[child_tag] = [atree]
+            tree[c_tag] = [atree]
 
-        if child_attr:
-            child_tree['#' + child_tag] = child_attr
+        if c_attr:
+            c_tree['#' + c_tag] = c_attr
 
-        tree[child_tag].append(child_tree)
+        tree[c_tag].append(c_tree)
     return tree
 
 

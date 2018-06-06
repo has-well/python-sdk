@@ -4,8 +4,11 @@ from cloudipsp import exceptions
 
 import os
 import requests
+import logging
 import cloudipsp.helpers as helper
 import cloudipsp.utils as utils
+
+log = logging.getLogger(__name__)
 
 
 class Api(object):
@@ -13,7 +16,7 @@ class Api(object):
 
     def __init__(self, **kwargs):
         """
-        :param kwargs: 
+        :param kwargs: args
         :arg merchant_id Merchant id numeric
         :arg secret_key Secret key string
         :arg request_type request type allowed json, xml, form
@@ -24,7 +27,8 @@ class Api(object):
         if not self.merchant_id or not self.secret_key:
             self.merchant_id = os.environ.get('CLOUDIPSP_MERCHANT_ID', '')
             self.secret_key = os.environ.get('CLOUDIPSP_SECRETKEY', '')
-        self.api_url = __api_url__.format(api_domain=kwargs.get('api_domain', 'api.fondy.eu'))
+        domain = kwargs.get('api_domain', 'api.fondy.eu')
+        self.api_url = __api_url__.format(api_domain=domain)
 
     def _headers(self):
         """
@@ -40,9 +44,14 @@ class Api(object):
         :param url: request url
         :param method: request method, POST default
         :param data: request data
-        :param headers: request headers 
+        :param headers: request headers
         :return: api response
         """
+        log.debug('Request Type: ' + self.request_type)
+        log.debug('URL: ' + url)
+        log.debug('Data: ' + str(data))
+        log.debug('Headers: ' + str(headers))
+
         response = requests.request(method, url, data=data, headers=headers)
         return self._response(response, response.content.decode('utf-8'))
 
@@ -54,6 +63,9 @@ class Api(object):
         """
         status = response.status_code
 
+        log.debug('Status: ' + str(status))
+        log.debug('Content: ' + content)
+
         if status in (200, 201):
             return content
 
@@ -64,15 +76,15 @@ class Api(object):
         """
         :param url: endpoint api url
         :param data: request data
-        :param headers: request headers 
-        :return: request 
+        :param headers: request headers
+        :return: request
         """
         if 'merchant_id' not in data:
             data['merchant_id'] = self.merchant_id
         if 'reservation_data' in data:
-            data['reservation_data'] = utils.to_base64(data['reservation_data'])
+            data['reservation_data'] = utils.to_b64(data['reservation_data'])
         if 'signature' not in data:
-            data['signature'] = helper.generate_signature(self.secret_key, data)
+            data['signature'] = helper.get_signature(self.secret_key, data)
         data_string = helper.get_data({'request': data}, self.request_type)
 
         return self._request(

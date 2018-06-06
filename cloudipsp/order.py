@@ -67,7 +67,10 @@ class Order(Resource):
         }
         helper.validate_data(params)
         params.update(data)
-        self.api.request_type = 'json'  # only json allowed all other methods returns 500 error
+        """
+        only json allowed all other methods returns 500 error
+        """
+        self.api.request_type = 'json'
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
 
