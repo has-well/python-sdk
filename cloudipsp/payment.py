@@ -70,7 +70,7 @@ class Payment(Resource):
 
     def reports(self, data):
         """
-        Method to get payment reports in date range
+        Method to get payment reports from date range
         :param data: date range
         :return: api response
         """
