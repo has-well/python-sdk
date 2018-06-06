@@ -4,8 +4,7 @@ from cloudipsp.configuration import __sign_sep__ as sep
 from cloudipsp.exceptions import RequestError
 
 import cloudipsp.utils as utils
-import string
-import random
+import uuid
 
 
 def get_data(data, req_type):
@@ -56,7 +55,10 @@ def get_order_desc(order_id):
 
 
 def generate_order_id():
-    return ''.join([random.choice(string.digits) for n in range(12)])
+    """
+    :return: unic order id
+    """
+    return str(uuid.uuid4())
 
 
 def validate_data(data):
