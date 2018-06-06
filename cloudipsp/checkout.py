@@ -48,14 +48,14 @@ class Checkout(Resource):
 
     def subscription(self, data):
         """
-        :param data: 
-        :return: 
+        :param data:
+        :return:
         """
 
     def _required(self, data):
         """
         Required data to send
-        :param data: 
+        :param data:
         :return: parameters to send
         """
         order_id = data.get('order_id') or helper.generate_order_id()
