@@ -1,5 +1,4 @@
 from __future__ import absolute_import, unicode_literals
-
 from cloudipsp import utils
 from cloudipsp import exceptions
 
@@ -38,7 +37,6 @@ class Resource(object):
                 result = utils.from_xml(response).get('response', '')
             if self.api.request_type == 'form':
                 result = utils.from_form(response)
-
             return self._get_result(result)
         except KeyError:
             raise ValueError('Undefined format error.')

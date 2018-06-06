@@ -7,6 +7,11 @@ import cloudipsp.helpers as helper
 
 class Pcidss(Resource):
     def step_one(self, data):
+        """
+        Accept purchase Pcidss step one
+        :param data: order data
+        :return: payment result or step two data
+        """
         path = '/3dsecure_step1/'
         order_id = data.get('order_id') or helper.generate_order_id()
         params = {
@@ -24,6 +29,11 @@ class Pcidss(Resource):
         return self.response(result)
 
     def step_two(self, data):
+        """
+        Accept purchase Pcidss step two
+        :param data: order data
+        :return: payment result
+        """
         path = '/3dsecure_step2/'
         params = {
             'order_id': data.get('order_id', ''),
@@ -40,7 +50,7 @@ class Payment(Resource):
     def p2pcredit(self, data):
         """
         Method P2P card credit
-        :param data: date range
+        :param data: order data
         :return: api response
         """
         path = '/p2pcredit/'
