@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 
 class RequestError(Exception):
     """
-    If some required param is missing
+    Some required param is missing.
     """
 
     def __init__(self, param):

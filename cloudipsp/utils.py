@@ -7,27 +7,10 @@ import six.moves.urllib as urllib
 import xml.etree.cElementTree as ElementTree
 
 
-def _data2xml(d):
-    result_list = list()
-
-    if isinstance(d, list):
-        for sub_elem in d:
-            result_list.append(_data2xml(sub_elem))
-
-        return ''.join(d)
-
-    if isinstance(d, dict):
-        for tag_name, sub_obj in d.items():
-            result_list.append("<%s>" % tag_name)
-            result_list.append(_data2xml(sub_obj))
-            result_list.append("</%s>" % tag_name)
-
-        return ''.join(result_list)
-
-    return "%s" % d
-
-
 def to_base64(data):
+    """
+    Encoding data string base64 algorithm
+    """
     return base64.b64encode(json.dumps(data).encode('utf-8')).decode('utf-8')
 
 
@@ -50,22 +33,59 @@ def merge_dict(x, y):
 
 
 def join_url(url, *paths):
+    """
+    :param url: api url
+    :param paths: endpoint
+    :return: full url
+    """
     for path in paths:
         url = re.sub(r'/?$', re.sub(r'^/?', '/', path), url)
     return url
 
 
 def from_json(json_string):
+    """
+    :param json_string: json data string to encode
+    :return: data dict
+    """
     return json.loads(json_string)
 
 
 def from_form(form_string):
+    """
+    :param form_string: form data string to encode
+    :return: data dict
+    """
     return dict(urllib.parse.parse_qsl(form_string))
 
 
 def from_xml(xml):
+    """
+    :param xml: xml string to encode
+    :return: data dict
+    """
     element = ElementTree.fromstring(xml)
     return _xml_to_dict(element.tag, _parse(element), element.attrib)
+
+
+def _data2xml(d):
+    result_list = list()
+
+    if isinstance(d, list):
+        for sub_elem in d:
+            result_list.append(_data2xml(sub_elem))
+
+        return ''.join(d)
+
+    if isinstance(d, dict):
+        for tag_name, sub_obj in d.items():
+            result_list.append("<%s>" % tag_name)
+            result_list.append(_data2xml(sub_obj))
+            result_list.append("</%s>" % tag_name)
+
+        return ''.join(result_list)
+
+    return "%s" % d
 
 
 def _parse(node):

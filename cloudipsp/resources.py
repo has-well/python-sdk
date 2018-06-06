@@ -44,8 +44,6 @@ class Resource(object):
             raise ValueError('Undefined format error.')
 
     def _get_result(self, result):
-        if 'response_status' in result and result.get('response_status') == 'failure':
-            raise exceptions.ResponseError(result)
-        if 'error_message' in result:
+        if 'error_message' in result:  # in some api param response_status not exist...
             raise exceptions.ResponseError(result)
         return result

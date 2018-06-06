@@ -9,6 +9,11 @@ import random
 
 
 def get_data(data, type):
+    """
+    :param data: data to prepare
+    :param type: request type
+    :return: prepared data
+    """
     if type == 'json':
         return utils.to_json(data)
     if type == 'xml':
@@ -18,6 +23,10 @@ def get_data(data, type):
 
 
 def get_request_type(type):
+    """
+    :param type: request type
+    :return: post header
+    """
     types = {
         'json': 'application/json; charset=utf-8',
         'xml': 'application/xml; charset=utf-8',
@@ -27,6 +36,11 @@ def get_request_type(type):
 
 
 def generate_signature(secret_key, params):
+    """
+    :param secret_key: merchant secret
+    :param params: post params
+    :return: signature string
+    """
     data = [secret_key]
     data.extend([str(params[key]) for key in sorted(iter(params.keys()))
                  if params[key] != '' and not params[key] is None])
@@ -34,6 +48,10 @@ def generate_signature(secret_key, params):
 
 
 def generate_order_desc(order_id):
+    """
+    :param order_id: order id
+    :return: description string
+    """
     return 'Pay for order #: %s' % order_id
 
 
@@ -42,6 +60,10 @@ def generate_order_id():
 
 
 def validate_data(data):
+    """
+    :param data: required data
+    :return: checking required data not empty
+    """
     for key, value in data.items():
         if value == '' or None:
             raise RequestError(key)

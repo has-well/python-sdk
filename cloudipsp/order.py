@@ -7,6 +7,11 @@ import cloudipsp.helpers as helper
 
 class Order(Resource):
     def capture(self, data):
+        """
+        Method for capture order
+        :param data: capture order data
+        :return: api response
+        """
         path = '/capture/order_id/'
         params = {
             'order_id': data.get('order_id', ''),
@@ -19,6 +24,11 @@ class Order(Resource):
         return self.response(result)
 
     def reverse(self, data):
+        """
+        Method for reverse order
+        :param data: reverse order data
+        :return: api response
+        """
         path = '/reverse/order_id/'
         params = {
             'order_id': data.get('order_id', ''),
@@ -31,6 +41,11 @@ class Order(Resource):
         return self.response(result)
 
     def status(self, data):
+        """
+        Method for checking order status
+        :param data: order data
+        :return: api response
+        """
         path = '/status/order_id/'
         params = {
             'order_id': data.get('order_id', '')
@@ -41,6 +56,11 @@ class Order(Resource):
         return self.response(result)
 
     def transaction_list(self, data):
+        """
+        Method for getting order transaction list
+        :param data: order data
+        :return: api response
+        """
         path = '/transaction_list/'
         params = {
             'order_id': data.get('order_id', '')
@@ -52,6 +72,11 @@ class Order(Resource):
         return self.response(result)
 
     def atol_logs(self, data):
+        """
+        Method for getting order atol logs
+        :param data: order data
+        :return: api response
+        """
         path = '/get_atol_logs/'
         params = {
             'order_id': data.get('order_id', '')

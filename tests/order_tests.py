@@ -1,12 +1,11 @@
 from __future__ import absolute_import, unicode_literals
-from cloudipsp import Api, Order, exceptions
+from cloudipsp import Order, exceptions
 from .tests_helper import TestCase
 
 
 class OrderTest(TestCase):
     def setUp(self):
-        self.data = self.get_dummy_data()
-        self.api = Api(merchant_id=self.data['merchant']['id'], secret_key=self.data['merchant']['secret'])
+        self.api = self.get_api()
         self.order = Order(api=self.api)
 
     def test_get_order_status(self):

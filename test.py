@@ -1,11 +1,10 @@
-from cloudipsp import Api, Checkout, Order, Payment
+from cloudipsp import Api, Checkout, Order, Payment, Pcidss
 
 api = Api(merchant_id=1396424, secret_key='test', request_type='json')  # json - is default
 checkout = Checkout(api=api)
 order = Order(api=api)
 payment = Payment(api=api)
-
-
+pcidss = Pcidss(api=api)
 """""
 data = {
     "preauth": 'Y',
@@ -26,13 +25,41 @@ order_data = {
 }
 order_resp = order.reverse(order_data)
 print(order_resp)
-"""""
-
 
 payment_data = {
-    "date_from": "19.04.2018 23:00:00",
-    "date_to": "20.04.2018 00:00:00"
+    "date_from": "20.04.2018 23:00:00",
+    "date_to": "20.04.2018 22:00:00"
 }
 
 payment_resp = payment.reports(payment_data)
 print(payment_resp)
+
+data = {
+    "currency": "RUB",
+    "amount": 10000,
+    "reservation_data": {
+        'test': 1,
+        'test2': 2
+    },
+    "rectoken": "d0110d00568b74b79eff1af5a1e4aedfd0c9df4e"
+}
+resp = payment.recurring(data)
+print(resp)
+
+data_pcidss = {
+    "currency": "RUB",
+    "amount": 10000,
+    'card_number': "4444555566661111",
+    'cvv2': "123",
+    'expiry_date': "1224"
+}
+resp = pcidss.step_one(data_pcidss)
+print(resp)
+"""""
+data_p2p = {
+    "currency": "RUB",
+    "amount": 100,
+    'receiver_card_number': "4444555566661111"
+}
+resp = payment.p2pcredit(data_p2p)
+print(resp)

@@ -16,6 +16,7 @@ class Api(object):
         :param kwargs: 
         :arg merchant_id Merchant id numeric
         :arg secret_key Secret key string
+        :arg request_type request type allowed json, xml, form
         """
         self.merchant_id = kwargs.get('merchant_id', '')
         self.secret_key = kwargs.get('secret_key', '')
@@ -26,16 +27,31 @@ class Api(object):
         self.api_url = __api_url__.format(api_domain=kwargs.get('api_domain', 'api.fondy.eu'))
 
     def _headers(self):
+        """
+        :return: request headers
+        """
         return {
             'User-Agent': self.user_agent,
             'Content-Type': helper.get_request_type(self.request_type),
         }
 
     def _request(self, url, method, data, headers):
+        """
+        :param url: request url
+        :param method: request method, POST default
+        :param data: request data
+        :param headers: request headers 
+        :return: api response
+        """
         response = requests.request(method, url, data=data, headers=headers)
         return self._response(response, response.content.decode('utf-8'))
 
     def _response(self, response, content):
+        """
+        :param response: api response
+        :param content: api response body
+        :return: if response header 200 or 201 return response data
+        """
         status = response.status_code
 
         if status in (200, 201):
@@ -45,6 +61,12 @@ class Api(object):
             'Response code is: {status}'.format(status=status))
 
     def post(self, url, data=list, headers=None):
+        """
+        :param url: endpoint api url
+        :param data: request data
+        :param headers: request headers 
+        :return: request 
+        """
         if 'merchant_id' not in data:
             data['merchant_id'] = self.merchant_id
         if 'reservation_data' in data:
