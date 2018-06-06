@@ -16,7 +16,7 @@ def to_b64(data):
 
 def to_xml(data, start='<?xml version="1.0" encoding="UTF-8"?>'):
     """
-    :param data: data convert to xml
+    :param data: params to convert to xml
     :param start: start xml string
     :return: xml string
     """
@@ -24,14 +24,29 @@ def to_xml(data, start='<?xml version="1.0" encoding="UTF-8"?>'):
 
 
 def to_json(data):
+    """
+    to json string
+    :param data: params to convert to xml
+    :return: json string
+    """
     return json.dumps(data)
 
 
 def to_form(data):
+    """
+    to form string
+    :param data: params to convert to form data
+    :return: encoded url string
+    """
     return urllib.parse.urlencode(data)
 
 
 def merge_dict(x, y):
+    """
+    :param x: firs dict
+    :param y: second dict
+    :return: merged dict
+    """
     z = x.copy()
     z.update(y)
     return z
