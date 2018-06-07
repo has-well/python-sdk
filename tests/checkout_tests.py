@@ -22,6 +22,23 @@ class CheckoutTest(TestCase):
         self.assertEqual(response.get('version'), '2.0')
         self.assertEqual(len(response.get('data')) > 0, True)
 
+    def test_create_subscb_json_v2(self):
+        self.api.api_protocol = '2.0'
+        data = self.data.get('checkout_data')
+        recurring_data = {
+            'recurring_data': {
+                'start_time': '2028-11-11',
+                'amount': '234324',
+                'every': '40',
+                'period': 'day'
+            }
+        }
+        data.update(recurring_data)
+        response = self.checkout.url(data)
+        self.assertEqual(self.api._headers().get('Content-Type'), 'application/json; charset=utf-8')
+        self.assertEqual(response.get('version'), '2.0')
+        self.assertEqual(len(response.get('data')) > 0, True)
+
     def test_create_url_xml(self):
         self.api.request_type = 'xml'
         response = self.checkout.url(self.data.get('checkout_data'))

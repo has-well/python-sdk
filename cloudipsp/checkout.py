@@ -52,11 +52,22 @@ class Checkout(Resource):
         :param data: order data
         :return: api response
         """
+        if self.api.api_protocol != '2.0':
+            raise Exception('This method allowed only for v2.0')
         path = '/checkout/url/'
+        recurring_data = data.get('recurring_data', '')
         subscription_data = {
-            're'
+            'recurring_data': {
+                'start_time': recurring_data.get('start_time', ''),
+                'amount': recurring_data.get('amount', ''),
+                'every': recurring_data.get('every', ''),
+                'period': recurring_data.get('period', '')
+            }
         }
-        params = self._required(data)
+
+        helper.validate_data(subscription_data['recurring_data'])
+        subscription_data.update(data)
+        params = self._required(subscription_data)
         result = self.api.post(path, data=params, headers=self.__headers__)
 
         return self.response(result)

@@ -89,7 +89,13 @@ data = {
     "reservation_data": {
         'test': 1,
         'test2': 2
+    },
+    'recurring_data': {
+        'start_time': '2018-11-11',
+        'amount': '234324',
+        'every': '40',
+        'period': 'day'
     }
 }
-resp = checkout.url(data)
+resp = checkout.subscription(data)
 print(resp)
