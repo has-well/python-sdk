@@ -7,6 +7,7 @@ env:
   - TOXENV=py27
 
 matrix:
+  include:
     - python: 3.4
       env:
       - TOXENV=py33
