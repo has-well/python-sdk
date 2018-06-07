@@ -2,11 +2,13 @@ language: python
 
 sudo: false
 
-python:
-- '2.7'
-- '3.3'
-- '3.4'
-- '3.6'
+env:
+  - TOXENV=py24
+  - TOXENV=py27
+  - TOXENV=py33
+  - TOXENV=py34
+  - TOXENV=py35
+  - TOXENV=py36
 
 install:
   - pip install tox pycodestyle nose coverage unittest2 requests
