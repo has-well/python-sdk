@@ -52,7 +52,7 @@ def get_signature(secret_key, params, protocol):
         return sha1(sep.join(data).encode('utf-8')).hexdigest()
 
 
-def get_order_desc(order_id):
+def get_desc(order_id):
     """
     :param order_id: order id
     :return: description string
@@ -67,7 +67,7 @@ def generate_order_id():
     return str(uuid.uuid4())
 
 
-def validate_data(data):
+def check_data(data):
     """
     :param data: required data
     :return: checking required data not empty

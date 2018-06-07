@@ -9,6 +9,7 @@ class Resource(object):
 
         super(Resource, self).__setattr__('__data__', {})
         super(Resource, self).__setattr__('__headers__', headers or {})
+        super(Resource, self).__setattr__('order_id', None)
 
     def __str__(self):
         return self.__data__.__str__()
@@ -23,7 +24,10 @@ class Resource(object):
             return super(Resource, self).__getattribute__(name)
 
     def __setattr__(self, name, value):
-        self.__data__[name] = value
+        try:
+            super(Resource, self).__setattr__(name, value)
+        except AttributeError:
+            self.__data__[name] = self.convert(name, value)
 
     def __contains__(self, name):
         return name in self.__data__

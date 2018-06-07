@@ -13,10 +13,10 @@ class Pcidss(Resource):
         :return: payment result or step two data
         """
         path = '/3dsecure_step1/'
-        order_id = data.get('order_id') or helper.generate_order_id()
-        order_desc = data.get('order_desc') or helper.get_order_desc(order_id)
+        self.order_id = data.get('order_id') or helper.generate_order_id()
+        order_desc = data.get('order_desc') or helper.get_desc(self.order_id)
         params = {
-            'order_id': order_id,
+            'order_id': self.order_id,
             'order_desc': order_desc,
             'currency': data.get('currency', ''),
             'amount': data.get('amount', ''),
@@ -24,7 +24,7 @@ class Pcidss(Resource):
             'cvv2': data.get('cvv2', ''),
             'expiry_date': data.get('expiry_date', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -41,7 +41,7 @@ class Pcidss(Resource):
             'pares': data.get('pares', ''),
             'md': data.get('md', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -55,15 +55,15 @@ class Payment(Resource):
         :return: api response
         """
         path = '/p2pcredit/'
-        order_id = data.get('order_id') or helper.generate_order_id()
-        order_desc = data.get('order_desc') or helper.get_order_desc(order_id)
+        self.order_id = data.get('order_id') or helper.generate_order_id()
+        order_desc = data.get('order_desc') or helper.get_desc(self.order_id)
         params = {
-            'order_id': order_id,
+            'order_id': self.order_id,
             'order_desc': order_desc,
             'amount': data.get('amount', ''),
             'currency': data.get('currency', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -79,7 +79,7 @@ class Payment(Resource):
             'date_from': data.get('date_from', ''),
             'date_to': data.get('date_to', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         """
         from api only one response if data invalid "General Decline"
         """
@@ -95,16 +95,16 @@ class Payment(Resource):
         :return: api response
         """
         path = '/recurring/'
-        order_id = data.get('order_id') or helper.generate_order_id()
-        order_desc = data.get('order_desc') or helper.get_order_desc(order_id)
+        self.order_id = data.get('order_id') or helper.generate_order_id()
+        order_desc = data.get('order_desc') or helper.get_desc(self.order_id)
         params = {
-            'order_id': order_id,
+            'order_id': self.order_id,
             'order_desc': order_desc,
             'amount': data.get('amount', ''),
             'currency': data.get('currency', ''),
             'rectoken': data.get('rectoken', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)

@@ -1,6 +1,6 @@
 from cloudipsp import Api, Checkout, Order, Payment, Pcidss
 
-api = Api(merchant_id=1396424, secret_key='test', request_type='json', api_protocol='2.0')  # json - is default
+api = Api(merchant_id=1396424, secret_key='test', request_type='xml', api_protocol='1.0')  # json - is default
 checkout = Checkout(api=api)
 order = Order(api=api)
 payment = Payment(api=api)
@@ -81,7 +81,7 @@ data_pcidss = {
 }
 resp = pcidss.step_one(data_pcidss)
 print(pcidss.step_one(data_pcidss))
-"""""
+
 data = {
     "preauth": 'Y',
     "currency": "RUB",
@@ -98,4 +98,15 @@ data = {
     }
 }
 resp = checkout.subscription(data)
+"""""
+data = {
+    "preauth": 'Y',
+    "currency": "RUB",
+    "amount": 10000,
+    "reservation_data": {
+        'test': 1,
+        'test2': 2
+    }
+}
+resp = checkout.url(data)
 print(resp)

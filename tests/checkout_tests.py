@@ -1,6 +1,8 @@
 from __future__ import absolute_import, unicode_literals
-from cloudipsp import Api, Checkout
+from cloudipsp import Checkout
 from .tests_helper import TestCase
+
+import uuid
 
 
 class CheckoutTest(TestCase):
@@ -14,6 +16,14 @@ class CheckoutTest(TestCase):
         self.assertEqual(self.api._headers().get('Content-Type'), 'application/json; charset=utf-8')
         self.assertIn('checkout_url', response)
         self.assertEqual(len(response.get('checkout_url')) > 0, True)
+
+    def test_get_order_id(self):
+        data = {
+            'order_id': str(uuid.uuid4())
+        }
+        data.update(self.data.get('checkout_data'))
+        self.checkout.url(data)
+        self.assertEqual(self.checkout.order_id, data.get('order_id'))
 
     def test_create_url_json_v2(self):
         self.api.api_protocol = '2.0'

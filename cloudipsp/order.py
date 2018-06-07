@@ -18,7 +18,7 @@ class Order(Resource):
             'amount': data.get('amount', ''),
             'currency': data.get('currency', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -35,7 +35,7 @@ class Order(Resource):
             'amount': data.get('amount', ''),
             'currency': data.get('currency', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -50,7 +50,7 @@ class Order(Resource):
         params = {
             'order_id': data.get('order_id', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return self.response(result)
@@ -65,7 +65,7 @@ class Order(Resource):
         params = {
             'order_id': data.get('order_id', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         """
         only json allowed all other methods returns 500 error
@@ -84,7 +84,7 @@ class Order(Resource):
         params = {
             'order_id': data.get('order_id', '')
         }
-        helper.validate_data(params)
+        helper.check_data(params)
         params.update(data)
         result = self.api.post(path, data=params, headers=self.__headers__)
         return utils.from_json(result).get('response')
