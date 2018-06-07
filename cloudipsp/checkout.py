@@ -54,7 +54,7 @@ class Checkout(Resource):
         """
         path = '/checkout/url/'
         subscription_data = {
-
+            're'
         }
         params = self._required(data)
         result = self.api.post(path, data=params, headers=self.__headers__)

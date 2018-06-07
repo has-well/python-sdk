@@ -2,8 +2,10 @@ from setuptools import find_packages, setup
 
 from cloudipsp.configuration import __version__
 
-with open('./README.md', 'r') as f:
-    readme = f.read()
+desc = """
+    Cloudipsp python sdk.
+    README - https://github.com/dimoncheg12/python-sdk/blob/master/README.md
+  """
 
 requires_list = [
     'requests',
@@ -16,7 +18,7 @@ setup(
     url='https://github.com/dimoncheg12/python-sdk/',
     license='MIT',
     description='SDK for cloudipsp clients.',
-    long_description=readme,
+    long_description=desc,
     author='Dmitriy Miroshnikov',
     packages=find_packages(where='.', exclude=('tests*',)),
     install_requires=requires_list,
