@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+from collections import OrderedDict
 
 import re
 import json
@@ -27,6 +28,7 @@ def to_xml(data, start='<?xml version="1.0" encoding="UTF-8"?>'):
     :param start: start xml string
     :return: xml string
     """
+    data = OrderedDict(sorted(data.items()))
     return start + _data2xml(data)
 
 
@@ -45,6 +47,7 @@ def to_form(data):
     :param data: params to convert to form data
     :return: encoded url string
     """
+    data = OrderedDict(sorted(data.items()))
     return urllib.parse.urlencode(data)
 
 
