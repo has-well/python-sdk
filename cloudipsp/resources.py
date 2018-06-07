@@ -29,6 +29,10 @@ class Resource(object):
         return name in self.__data__
 
     def response(self, response):
+        """
+        :param response: api response
+        :return: result
+        """
         try:
             result = None
             if self.api.request_type == 'json':
@@ -41,8 +45,7 @@ class Resource(object):
         except KeyError:
             raise ValueError('Undefined format error.')
 
-    @staticmethod
-    def _get_result(result):
+    def _get_result(self, result):
         """
         in some api param response_status not exist...
         :param result: api result
@@ -50,4 +53,7 @@ class Resource(object):
         """
         if 'error_message' in result:
             raise exceptions.ResponseError(result)
+        if 'data' in result and self.api.api_protocol == '2.0':
+            result['data'] = utils.from_b64(result['data'])
+
         return result

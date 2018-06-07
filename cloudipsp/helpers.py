@@ -34,16 +34,22 @@ def get_request_type(req_type):
     return types.get(req_type, types['json'])
 
 
-def get_signature(secret_key, params):
+def get_signature(secret_key, params, protocol):
     """
     :param secret_key: merchant secret
     :param params: post params
+    :param protocol: api protocol version
     :return: signature string
     """
-    data = [secret_key]
-    data.extend([str(params[key]) for key in sorted(iter(params.keys()))
-                 if params[key] != '' and not params[key] is None])
-    return sha1(sep.join(data).encode('utf-8')).hexdigest()
+    if protocol == '2.0':
+        str_sign = sep.join([secret_key, params])
+        calc_sign = sha1(str_sign.encode('utf-8')).hexdigest()
+        return calc_sign
+    else:
+        data = [secret_key]
+        data.extend([str(params[key]) for key in sorted(iter(params.keys()))
+                     if params[key] != '' and not params[key] is None])
+        return sha1(sep.join(data).encode('utf-8')).hexdigest()
 
 
 def get_order_desc(order_id):

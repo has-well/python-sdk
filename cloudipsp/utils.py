@@ -14,6 +14,13 @@ def to_b64(data):
     return base64.b64encode(json.dumps(data).encode('utf-8')).decode('utf-8')
 
 
+def from_b64(data):
+    """
+    Encoding data string base64 algorithm
+    """
+    return base64.b64decode(json.dumps(data).encode('utf-8')).decode('utf-8')
+
+
 def to_xml(data, start='<?xml version="1.0" encoding="UTF-8"?>'):
     """
     :param data: params to convert to xml

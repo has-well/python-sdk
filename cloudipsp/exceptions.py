@@ -32,6 +32,9 @@ class ResponseError(Exception):
         if 'error_code' in self.response:
             message += " Error code: %s." \
                        % (self.response.get('error_code'))
+        if 'request_id' in self.response:
+            message += " Request id: %s." \
+                       % (self.response.get('request_id'))
         message += " Check parameters"
         return message
 

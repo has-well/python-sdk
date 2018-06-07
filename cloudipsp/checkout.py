@@ -48,9 +48,18 @@ class Checkout(Resource):
 
     def subscription(self, data):
         """
-        :param data:
-        :return:
+        Method to generate checkout url with calendar
+        :param data: order data
+        :return: api response
         """
+        path = '/checkout/url/'
+        subscription_data = {
+
+        }
+        params = self._required(data)
+        result = self.api.post(path, data=params, headers=self.__headers__)
+
+        return self.response(result)
 
     @staticmethod
     def _required(data):

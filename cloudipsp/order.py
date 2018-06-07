@@ -8,7 +8,7 @@ import cloudipsp.helpers as helper
 class Order(Resource):
     def capture(self, data):
         """
-        Method for capture order
+        Method for capturing order
         :param data: capture order data
         :return: api response
         """
@@ -25,7 +25,7 @@ class Order(Resource):
 
     def reverse(self, data):
         """
-        Method for reverse order
+        Method to reverse order
         :param data: reverse order data
         :return: api response
         """
