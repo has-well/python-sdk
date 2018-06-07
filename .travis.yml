@@ -3,14 +3,13 @@ language: python
 sudo: false
 
 python:
-- '2.4'
 - '2.7'
 - '3.3'
 - '3.4'
 - '3.5'
 
 install:
-  - pip install tox pycodestyle nose coverage unittest2
+  - pip install tox pycodestyle nose coverage unittest2 requests
 
 script:
   - tox
