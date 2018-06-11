@@ -15,4 +15,4 @@ data = {
         'test2': 2
     }
 }
-resp = checkout.url(data)
+response = checkout.url(data)

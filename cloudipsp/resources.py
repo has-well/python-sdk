@@ -32,6 +32,10 @@ class Resource(object):
     def __contains__(self, name):
         return name in self.__data__
 
+    def get_url(self):
+        if 'checkout_url' in self.__data__:
+            return self.__getattr__('checkout_url')
+
     def response(self, response):
         """
         :param response: api response
@@ -59,5 +63,5 @@ class Resource(object):
             raise exceptions.ResponseError(result)
         if 'data' in result and self.api.api_protocol == '2.0':
             result['data'] = utils.from_b64(result['data'])
-
+        self.__data__ = result
         return result

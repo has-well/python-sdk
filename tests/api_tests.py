@@ -37,8 +37,13 @@ class ApiTest(TestCase):
 
     def test_post(self):
         with self.assertRaises(exceptions.ServiceError):
-            self.api._request(self.api.api_url, method="POST", data=None, headers=None)
+            self.api._request(self.api.api_url,
+                              method="POST",
+                              data=None,
+                              headers=None)
 
     def test_headers(self):
-        self.assertEqual(self.api._headers().get('User-Agent'), 'Python SDK')
-        self.assertEqual(self.api._headers().get('Content-Type'), 'application/json; charset=utf-8')
+        self.assertEqual(self.api._headers().get('User-Agent'),
+                         'Python SDK')
+        self.assertEqual(self.api._headers().get('Content-Type'),
+                         'application/json; charset=utf-8')

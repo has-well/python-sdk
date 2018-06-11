@@ -75,3 +75,30 @@ def check_data(data):
     for key, value in data.items():
         if value == '' or None:
             raise RequestError(key)
+        if key == 'amount':
+            try:
+                int(value)
+            except ValueError:
+                raise ValueError('Amount must numeric')
+
+
+def is_valid(data, secret_key, protocol):
+    if 'signature' in data:
+        result_signature = data['signature']
+        del data['signature']
+    else:
+        raise ValueError('Incorrect data')
+    if 'response_signature_string' in data:
+        del data['response_signature_string']
+    signature = get_signature(secret_key=secret_key,
+                              params=data,
+                              protocol=protocol)
+    return result_signature == signature
+
+
+def is_approved(data, secret_key, protocol):
+    if 'order_status' not in data:
+        raise ValueError('Incorrect data')
+    if not is_valid(data, secret_key, protocol):
+        raise Exception('Payment invalid')
+    return data.get('order_status') == 'approved'
