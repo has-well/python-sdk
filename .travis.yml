@@ -2,18 +2,8 @@ language: python
 
 sudo: false
 
-addons:
-  apt:
-    sources:
-      - deadsnakes
-    packages:
-      - python2.4
-
 matrix:
   include:
-    - python: 2.4
-      env:
-      - TOXENV=py24
     - python: 2.7
       env:
       - TOXENV=py27
@@ -26,7 +16,9 @@ matrix:
     - python: 3.6
       env:
       - TOXENV=py36
-
+    - python: 3.7
+      env:
+      - TOXENV=py37
 install:
   - pip install tox pycodestyle nose coverage unittest2 requests
 
