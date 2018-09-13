@@ -2,12 +2,14 @@ language: python
 
 sudo: false
 
-env:
-  - TOXENV=py24
-  - TOXENV=py27
-
 matrix:
   include:
+    - python: 2.4
+      env:
+      - TOXENV=py24
+    - python: 2.7
+      env:
+      - TOXENV=py27
     - python: 3.4
       env:
       - TOXENV=py34
