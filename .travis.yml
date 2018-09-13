@@ -9,23 +9,12 @@ addons:
     packages:
       - python2.4
 
-matrix:
-  include:
-    - python: 2.4
-      env:
-      - TOXENV=py24
-    - python: 2.7
-      env:
-      - TOXENV=py27
-    - python: 3.4
-      env:
-      - TOXENV=py34
-    - python: 3.5
-      env:
-      - TOXENV=py35
-    - python: 3.6
-      env:
-      - TOXENV=py36
+env:
+ - TOXENV=py24
+ - TOXENV=py27
+ - TOXENV=py34
+ - TOXENV=py35
+ - TOXENV=py36
 
 install:
   - pip install tox pycodestyle nose coverage unittest2 requests
