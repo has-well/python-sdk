@@ -2,6 +2,13 @@ language: python
 
 sudo: false
 
+addons:
+  apt:
+    sources:
+      - deadsnakes
+    packages:
+      - python2.4
+
 matrix:
   include:
     - python: 2.4
