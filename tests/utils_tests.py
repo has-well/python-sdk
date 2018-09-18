@@ -28,5 +28,5 @@ class UtilTest(TestCase):
     def test_join_url(self):
         join_url = utils.join_url("checkout", "order")
         self.assertEqual(join_url, "checkout/order")
-        join_url = utils.join_url("order/", "3ds")
+        join_url = utils.join_url("order", "/3ds")
         self.assertEqual(join_url, "order/3ds")
